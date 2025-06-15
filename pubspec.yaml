@@ -94,6 +94,9 @@ flutter:
     - assets/images/research1.jpg
     - assets/images/research2.jpg
     - assets/images/research3.jpg
+    - assets/images/research4.png
+    - assets/images/research5.png
+    - assets/images/research6.png
     - assets/images/ex1.png
     - assets/images/ex2.png
     - assets/images/ex3.png

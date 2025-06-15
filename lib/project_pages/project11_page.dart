@@ -138,10 +138,31 @@ class Project11Page extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(height: 16),
+                // First image gallery: research1.jpg to research3.jpg
                 const HorizontalImageScroller(
                   imageCount: 3,
                   imagePrefix: 'research',
                   fileExtension: 'jpg',
+                  startImageIndex: 1,
+                ),
+                const SizedBox(height: 24), 
+                // Second image gallery: research4.png to research6.png
+                const HorizontalImageScroller(
+                  imageCount: 3,
+                  imagePrefix: 'research',
+                  fileExtension: 'png',
+                  startImageIndex: 4,
+                ),
+                const SizedBox(height: 40),
+                // New subheading
+                const Text(
+                  'Future Directions:',
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'This project is ongoing and future drawings are in the making...',
+                  style: TextStyle(fontSize: 16, height: 1.6),
                 ),
                 const SizedBox(height: 40),
               ],
@@ -157,12 +178,14 @@ class HorizontalImageScroller extends StatefulWidget {
   final int imageCount;
   final String imagePrefix;
   final String fileExtension;
+  final int startImageIndex; // New parameter to define the starting index for image naming
 
   const HorizontalImageScroller({
     super.key,
     required this.imageCount,
     required this.imagePrefix,
     this.fileExtension = 'png',
+    this.startImageIndex = 1, // Default to 1 for backward compatibility
   });
 
   @override
@@ -185,6 +208,12 @@ class _HorizontalImageScrollerState extends State<HorizontalImageScroller> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose(); // Dispose of the controller to prevent memory leaks
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -194,6 +223,7 @@ class _HorizontalImageScrollerState extends State<HorizontalImageScroller> {
             controller: _controller,
             itemCount: widget.imageCount,
             itemBuilder: (context, index) {
+              // Construct the image path using the startImageIndex
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ClipRRect(
@@ -201,7 +231,7 @@ class _HorizontalImageScrollerState extends State<HorizontalImageScroller> {
                   child: AspectRatio(
                     aspectRatio: 4 / 3,
                     child: Image.asset(
-                      'assets/images/${widget.imagePrefix}${index + 1}.${widget.fileExtension}',
+                      'assets/images/${widget.imagePrefix}${index + widget.startImageIndex}.${widget.fileExtension}',
                       fit: BoxFit.cover,
                     ),
                   ),
